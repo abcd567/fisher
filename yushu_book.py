@@ -2,6 +2,8 @@
 __author__ = "吴飞鸿"
 __date__ = "2019/10/31 0:20"
 
+from flask import current_app
+
 from httper import HTTP
 
 class YuShuBook:
@@ -18,7 +20,11 @@ class YuShuBook:
         return res
 
     @classmethod
-    def search_by_keyword(cls, q, count=15, start=0):
-        url = cls.keyword_url.format(q, count, start)
+    def search_by_keyword(cls, q, page):
+        url = cls.keyword_url.format(q, current_app.config['PER_PAGE'], cls.calculate_start(page))
         res = HTTP.get(url)
         return res
+
+    @staticmethod
+    def calculate_start(page):
+        return (page - 1) * current_app.config['PER_PAGE']
