@@ -13,17 +13,32 @@ class YuShuBook:
     isbn_url = 'http://t.yushu.im/v2/book/isbn/{}'
     keyword_url = 'http://t.yushu.im/v2/book/search?q={}&count={}&start={}'
 
-    @classmethod
-    def search_by_isbn(cls, isbn):
-        url = cls.isbn_url.format(isbn)
-        res = HTTP.get(url)
-        return res
+    def __init__(self):
+        self.total = 0
+        self.books = []
 
-    @classmethod
-    def search_by_keyword(cls, q, page):
-        url = cls.keyword_url.format(q, current_app.config['PER_PAGE'], cls.calculate_start(page))
+    def search_by_isbn(self, isbn):
+        url = self.isbn_url.format(isbn)
         res = HTTP.get(url)
-        return res
+        self._fill_single(res)
+        # 不再返回，而是将数据记录在类实例
+        # return res
+
+    def search_by_keyword(self, q, page):
+        url = self.keyword_url.format(q, current_app.config['PER_PAGE'], self.calculate_start(page))
+        res = HTTP.get(url)
+        self._fill_colletion(res)
+        # 不再返回，而是将数据记录在类实例
+        # return res
+
+    def _fill_single(self, data):
+        if data:
+            self.total = 1
+            self.books.append(data)
+
+    def _fill_colletion(self, data):
+        self.total = data['total']
+        self.books = data['books']
 
     @staticmethod
     def calculate_start(page):
