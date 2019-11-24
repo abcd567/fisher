@@ -1,7 +1,7 @@
 # _*_ coding: utf-8 _*_
 import json
 
-from flask import jsonify, request
+from flask import jsonify, request, flash, render_template
 
 from . import web
 from helper import is_isbn_or_key
@@ -40,6 +40,13 @@ def search():
         headers = {
             'content-type': 'application/json; charset=utf8',
         }
-        return json.dumps(books, default= lambda o: o.__dict__), 200, headers
+        # return json.dumps(books, default= lambda o: o.__dict__), 200, headers
     else:
-        return jsonify(form.errors)
+        # return jsonify(form.errors)
+        flash('搜索的关键字不符合要求，请重新输入')
+
+    return render_template('search_result.html', books=books)
+
+@web.route('/book/<isbn>/detail')
+def book_detail(isbn):
+    pass
