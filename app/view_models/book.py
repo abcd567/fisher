@@ -8,10 +8,18 @@ class BookViewModel:
         self.title = book['title']
         self.publisher = book['publisher']
         self.pages = book['pages']
-        self.author = book['author']
+        # 作者是列表，可能有多人作者，
+        self.author = ", ".join(book['author'])
         self.price = book['price']
         self.summary = book['summary']
         self.image = book['image']
+        self.isbn = book['isbn']
+
+    @property
+    def intro(self):
+        intros = filter(lambda x: True if x else False,
+                        [self.author, self.publisher, self.price])
+        return ' / '.join(intros)
 
 class BookCollection:
     def __init__(self):

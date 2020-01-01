@@ -3,11 +3,11 @@ __author__ = "吴飞鸿"
 __date__ = "2019/11/4 21:03"
 
 from sqlalchemy import Column, Integer, String
-from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()
+from app.models.base import Base
 
-class Book(db.Model):
+
+class Book(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     author = Column(String(32), default='佚名')
     isbn = Column(String(15), nullable=False, unique=True)

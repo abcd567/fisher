@@ -1,7 +1,7 @@
 # _*_ coding: utf-8 _*_
 from flask import Flask
 
-from app.models.book import db
+from app.models.base import db
 
 __author__ = "吴飞鸿"
 __date__ = "2019/11/1 18:08"
