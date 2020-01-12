@@ -13,7 +13,7 @@ from . import web
 # @cache.cached(timeout=100, unless=__current_user_status_change)
 # @cache.cached(timeout=100)
 def index():
-    pass
+    return '首页'
 
 
 @web.route('/personal')
